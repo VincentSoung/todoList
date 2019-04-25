@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>todoList</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+    <div id="app">
+        <h1> Add a todo item</h1>
+        <form v-on:submit.prevent="addTodoItem">
+            <input type="text" v-model.trim="todomsg">
+            <button>Add</button>
+        </form>
+        <span>代办事项</span>
+        <ul>
+            <div v-if="todos.length > 0">
+                
+                <li v-for="(item, index) in todos"
+                    v-bind:key="item.id"
+                    v-bind:id="item.id"
+                    >
+                    <input type="checkbox" 
+                        v-bind:checked="item.finished"
+                        v-bind:name="item.id"
+                        v-bind:id="item.id"
+                        v-bind:value="item"
+                        v-on:change="finishFn(item, index)"
+                        >
+                    {{ item }}
+                    <button v-on:click="remove(item, index)">remove</button>
+                </li>
+            </div>
+        </ul>
+        <span>已办事项</span>
+        <ul>
+            <div v-if="finishedItems.length > 0">
+                <li v-for="(item, index) in finishedItems"
+                    v-bind:key="item.id"
+                    >
+                    <input type="checkbox"
+                        v-bind:checked="item.finished" 
+                        v-bind:name="item.id" 
+                        v-bind:id="item.id"
+                        v-bind:value="item"
+                        v-on:change="redo(item, index)"
+                        >
+                    {{ item }}
+                </li>
+            </div>
+        </ul>
+        <span>删除事项</span>
+        <ul>
+            <div v-if="deletedItems.length > 0">
+                <li v-for="(item, index) in deletedItems"
+                    v-bind:key="item.id"
+                    v-bind:style="deleteListStyle"
+                    >
+                    {{ item }}
+                    <button v-on:click="redo(item, index)">redo</button>
+                    <!--也可以用del标签表示删除<del>{{ item }}</del> -->
+                </li>
+            </div>
+        </ul>
+    </div>
+
+
+
+    <script src="./index.js"></script>
+</body>
+</html>
